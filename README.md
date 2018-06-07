@@ -1,4 +1,6 @@
-# canny-edge-detector
-Basic Edge Detector in Python
+# Canny Edge Detector in Python
 
+![canny edge detector](example.png)
+
+## Dependencies:
 ```pip install opencv-python```
