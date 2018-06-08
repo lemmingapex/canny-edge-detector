@@ -6,5 +6,8 @@
 
 This is not for production use.  I built this to better understand how edge detection works.
 
-## Dependencies:
+## Dependencies
 ```pip install opencv-python```
+
+## Run
+```./canny-edge-detector.py input_image.jpg```
