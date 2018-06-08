@@ -3,6 +3,7 @@
 
 import string, sys
 import os.path
+import argparse
 import numpy
 import math
 from scipy.ndimage.filters import gaussian_filter
@@ -124,28 +125,34 @@ class CannyEdgeDetector:
 
 # main (DRIVER)
 def main():
-	if len(sys.argv) != 2:
-		print "Wrong number of arguments."
-		print "Usage: " + sys.argv[0] + " <input.jpg>\n"
+	parser = argparse.ArgumentParser(description="Canny Edge Detector")
+	parser.add_argument("input_filename", help="jpg or png input image file path")
+	parser.add_argument("-s", "--sigma", type=float, default=1.4, metavar="sigma", help="standard deviation for gaussian blur")
+	parser.add_argument("-l", "--lower_t", type=int, default=20, metavar="lower_t", help="lower threshold")
+	parser.add_argument("-u", "--upper_t", type=int, default=50, metavar="upper_t", help="upper threshold")
+	args = parser.parse_args()
+
+	input_filename = args.input_filename
+	if not os.path.isfile(input_filename):
+		print "ERROR: The file \""+ input_filename + "\" does not exist.\n"
 		return 1
-	else:
-		inputFileName = sys.argv[1]
-		if not os.path.isfile(inputFileName):
-			print "The file \""+ inputFileName + "\" does not exist.\n"
-			return 2
-		if not inputFileName.endswith(".jpg"):
-			print "This is not an .jpg file.\n"
-			return 3
-		outputFileName = "output.jpg"
+	if not input_filename.endswith(".jpg") and not input_filename.endswith(".png"):
+		print "ERROR: This is not an .jpg or .png file.\n"
+		return 2
+	outputFileName = "output.png"
 
-		image = imread(inputFileName, cv2.IMREAD_GRAYSCALE).astype("int32")
-		# TODO: could these be passed-in or progrmaticly determined?
-		sigma = 1.4
-		lower_t = 20
-		upper_t = 40
+	image = imread(input_filename, cv2.IMREAD_GRAYSCALE).astype("int32")
+	# TODO: could these be passed-in or progrmaticly determined?
+	sigma = args.sigma
+	if args.lower_t > args.upper_t:
+		print "ERROR: Lower threshold is greater than upper threshold.\n"
+		return 3
 
-		image = CannyEdgeDetector().execute(image, sigma, lower_t, upper_t)
-		imwrite(outputFileName, image)
+	lower_t = min(args.lower_t, args.upper_t)
+	upper_t = max(args.lower_t, args.upper_t)
+
+	image = CannyEdgeDetector().execute(image, sigma, lower_t, upper_t)
+	imwrite(outputFileName, image)
 	return 0
 
 # call to main

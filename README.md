@@ -7,7 +7,7 @@
 This is not for production use.  I built this to better understand how edge detection works.
 
 ## Dependencies
-```pip install opencv-python```
+```pip install numpy scipy opencv-python```
 
 ## Run
-```./canny-edge-detector.py input_image.jpg```
+```./canny-edge-detector.py input_image.jpg 1.4 20 50```
