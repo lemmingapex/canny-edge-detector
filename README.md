@@ -1,6 +1,6 @@
 # Canny Edge Detector in Python
 
-![canny edge detector](example.png)
+![canny edge detector](example2.png)
 
 [Canny edge detector wikipedia](https://en.wikipedia.org/wiki/Canny_edge_detector)
 
